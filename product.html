@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="icon" type="image/x-icon" href="/img/acube.png" />
+    <style>
+        .product {
+            border: 1px solid var(--dark-two);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+            text-align: center;
+            background-color: var(--light-three);
+            transition: box-shadow 0.3s;
+        }
+
+        .product:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .product img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+
+        .product h3 {
+            font-size: 1.5rem;
+            color: var(--dark-one);
+            margin-bottom: 10px;
+        }
+
+        .product .description {
+            font-size: 1rem;
+            color: var(--dark-two);
+            margin-bottom: 10px;
+        }
+
+        .product .btn {
+            margin-top: 10px;
+            padding: 0.7rem 1.8rem;
+            font-size: 1rem;
+        }
+
+        nav.container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .links ul {
+            display: flex;
+            gap: 70px;
+        }
+
+        .links ul li {
+            list-style: none;
+        }
+
+        .links ul li a {
+            text-decoration: none;
+            color: var(--dark-one);
+            font-size: 1rem;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .links ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            background: var(--main-color);
+            transition: width 0.3s;
+            bottom: 0;
+            left: 0;
+        }
+
+        .links ul li a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger-menu {
+            display: none;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .links ul {
+                flex-direction: column;
+                display: none;
+            }
+
+            .hamburger-menu {
+                display: block;
+            }
+
+            .grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .grid-4 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .cart-message {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: larger;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .cart-container {
+            position: fixed;
+            top: 20%;
+            right: 10px;
+            width: 300px;
+            border: 1px solid var(--dark-two);
+            border-radius: 10px;
+            padding: 20px;
+            background-image: url(img/CART.png);
+            background-repeat: no-repeat;
+            background-color: #d3e0ee;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+        }
+
+        .cart-items {
+            margin-bottom: 20px;
+        }
+
+        .enquire-btn {
+            padding: 0.7rem 1.8rem;
+            font-size: 1rem;
+            background-color: var(--main-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .enquire-btn:hover {
+            background-color: #287c11;
+        }
+
+        .form-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid var(--dark-two);
+            border-radius: 10px;
+            padding: 20px;
+            background-color: var(--light-three);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            margin: 20px auto;
+            z-index: 1001;
+        }
+
+        .form-container h2 {
+            margin-bottom: 20px;
+            color: var(--dark-one);
+        }
+
+        .form-container .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-container label {
+            display: block;
+            font-size: 1rem;
+            color: var(--dark-one);
+            margin-bottom: 5px;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="email"],
+        .form-container input[type="tel"],
+        .form-container textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid var(--dark-two);
+            font-size: 1rem;
+            color: var(--dark-one);
+        }
+
+        .form-container textarea {
+            resize: vertical;
+            background-color: #f9f9f9;
+        }
+
+        .form-container .btn-submit {
+            padding: 0.7rem 1.8rem;
+            font-size: 1rem;
+            background-color: var(--main-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .form-container .btn-submit:hover {
+            background-color: #287c11;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <img src="./img/logo.png" alt="Logo" />
+                Hydraulics
+            </div>
+            <div class="links">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="product.html">Products</a></li>
+                    <li><a href="aboutus.html">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="hamburger-menu">
+                <div class="bar"></div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="container section">
+        <div class="section-header">
+            <h2 class="title" data-title="Products">Our Products</h2>
+            <p class="text">Check out our latest products with amazing offers!</p>
+        </div>
+        <div class="grid-4">
+            <div class="product">
+                <img src="img/products/ACV.jpg" alt="Product 1">
+                <h3>AVC</h3>
+                <p class="description">A versatile air control valve suitable for various hydraulic systems.</p>
+                <button class="btn" onclick="addToCart('AVC')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="img/products/Barathbenz ACV.jpg" alt="Product 2">
+                <h3>Air Control Valve</h3>
+                <p class="description">High-quality air control valve for precise control of air flow.</p>
+                <button class="btn" onclick="addToCart('Air Control Valve')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="img/products/DCV.jpg" alt="Product 3">
+                <h3>DCV</h3>
+                <p class="description">Durable directional control valve for reliable operation.</p>
+                <button class="btn" onclick="addToCart('DCV')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="img/products/Filter.jpg" alt="Product 4">
+                <h3>Filter</h3>
+                <p class="description">Efficient filtration for clean hydraulic systems.</p>
+                <button class="btn" onclick="addToCart('Filter')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="img/products/Al Return Line Filter.jpg" alt="Product 5">
+                <h3>Al Return Line Filter</h3>
+                <p class="description">Aluminum return line filter for superior performance.</p>
+                <button class="btn" onclick="addToCart('Al Return Line Filter')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="img/products/Cap.jpg" alt="Product 6">
+                <h3>Cap</h3>
+                <p class="description">Protective cap designed for hydraulic components.</p>
+                <button class="btn" onclick="addToCart('Cap')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="img/products/Hydrolic Pump.jpg" alt="Product 7">
+                <h3>Product 7</h3>
+                <p class="description">High-efficiency hydraulic pump for demanding applications.</p>
+                <button class="btn" onclick="addToCart('Product 7')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="img/products/Oil Level Indicator.jpg" alt="Product 8">
+                <h3>Oil Level Indicator</h3>
+                <p class="description">Accurate oil level indicator for easy monitoring.</p>
+                <button class="btn" onclick="addToCart('Oil Level Indicator')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="img/products/Pump seal kit.jpg" alt="Product 9">
+                <h3>Pump Seal Kit</h3>
+                <p class="description">Complete seal kit for hydraulic pumps.</p>
+                <button class="btn" onclick="addToCart('Pump Seal Kit')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="img/products/Seal Kit.jpg" alt="Product 10">
+                <h3>Seal Kit</h3>
+                <p class="description">Seal kit for maintaining hydraulic component integrity.</p>
+                <button class="btn" onclick="addToCart('Seal Kit')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="img/products/Thrust Plate.jpg" alt="Product 11">
+                <h3>Thrust Plate</h3>
+                <p class="description">Heavy-duty thrust plate for reliable operation.</p>
+                <button class="btn" onclick="addToCart('Thrust Plate')">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+
+    <div id="cartMessage" class="cart-message">Item added to cart!</div>
+
+    <!-- Cart Container -->
+    <div class="cart-container">
+        <h3>Your Cart</h3>
+        <div id="cartItems" class="cart-items">
+            <!-- Items will be dynamically added here -->
+        </div>
+        <button id="enquireButton" class="enquire-btn">Enquire Now</button>
+    </div>
+
+    <!-- Enquiry Form -->
+    <div id="enquiryFormContainer" class="form-container hidden">
+        <h2>Enquiry Form</h2>
+        <form id="enquiryForm" action="https://formsubmit.co/info.acubeent@gmail.com" method="POST">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="cartItemsInput">Cart Items</label>
+                <textarea id="cartItemsInput" name="cartItems" rows="4" readonly></textarea>
+            </div>
+            <button type="submit" class="btn-submit">Submit Enquiry</button>
+        </form>
+    </div>
+    </section>
+
+
+    <script>
+        const cart = [];
+        const cartItemsDiv = document.getElementById('cartItems');
+        const cartMessage = document.getElementById('cartMessage');
+        const enquiryFormContainer = document.getElementById('enquiryFormContainer');
+        const cartItemsInput = document.getElementById('cartItemsInput');
+
+        function addToCart(item) {
+            cart.push(item);
+            renderCartItems();
+            showCartMessage();
+        }
+
+        function renderCartItems() {
+            cartItemsDiv.innerHTML = '';
+            cart.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.textContent = item;
+                itemDiv.style.display = 'flex';
+                itemDiv.style.justifyContent = 'space-between';
+                itemDiv.style.alignItems = 'center';
+
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.style.marginLeft = '10px';
+                removeButton.style.fontSize = '10px';
+                removeButton.style.backgroundColor = 'red';
+                removeButton.style.color = 'white';
+                removeButton.style.border = 'none';
+                removeButton.style.borderRadius = '3px';
+                removeButton.style.padding = '1px';
+                removeButton.style.cursor = 'pointer';
+
+                removeButton.onclick = () => {
+                    cart.splice(index, 1);
+                    renderCartItems();
+                };
+
+                itemDiv.appendChild(removeButton);
+                cartItemsDiv.appendChild(itemDiv);
+            });
+
+            updateCartItemsInput();
+        }
+
+        function showCartMessage() {
+            cartMessage.style.display = 'block';
+            setTimeout(() => {
+                cartMessage.style.display = 'none';
+            }, 2000);
+        }
+
+        function updateCartItemsInput() {
+            cartItemsInput.value = cart.join(', ');
+        }
+
+        const enquireButton = document.getElementById('enquireButton');
+        enquireButton.addEventListener('click', () => {
+            enquiryFormContainer.classList.toggle('hidden');
+            updateCartItemsInput();
+        });
+
+        /*const enquiryForm = document.getElementById('enquiryForm');
+        enquiryForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Add form submission logic here
+            alert('Enquiry submitted successfully!');
+        });*/
+    </script>
+</body>
+
+</html>
