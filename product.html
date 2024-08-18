@@ -104,7 +104,7 @@
             }
 
             .hamburger-menu {
-                display: block;
+                display: flex;
             }
 
             .grid-4 {
@@ -231,6 +231,20 @@
         .hidden {
             display: none;
         }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .close-btn:hover {
+            background-color: darkred;
+        }
     </style>
 </head>
 
@@ -343,6 +357,7 @@
 
     <!-- Enquiry Form -->
     <div id="enquiryFormContainer" class="form-container hidden">
+        <button class="close-btn" id="closeFormButton">✕</button>
         <h2>Enquiry Form</h2>
         <form id="enquiryForm" action="https://formsubmit.co/a31b236864b02cc8821dcfcb7b938945" method="POST">
             <div class="form-group">
@@ -422,6 +437,10 @@
         function updateCartItemsInput() {
             cartItemsInput.value = cart.join(', ');
         }
+        const closeFormButton = document.getElementById('closeFormButton');
+        closeFormButton.addEventListener('click', () => {
+            enquiryFormContainer.classList.add('hidden');
+        });
 
         const enquireButton = document.getElementById('enquireButton');
         enquireButton.addEventListener('click', () => {
