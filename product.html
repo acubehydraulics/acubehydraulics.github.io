@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="icon" type="image/x-icon" href="/img/acube.png" />
     <style>
-        /* Existing CSS styles... */
-
         .product {
             border: 1px solid var(--dark-two);
             border-radius: 10px;
@@ -18,11 +16,6 @@
             text-align: center;
             background-color: var(--light-three);
             transition: box-shadow 0.3s;
-            display: none; /* Default hidden, shown by JS */
-        }
-
-        .product.visible {
-            display: block;
         }
 
         .product:hover {
@@ -267,6 +260,16 @@
             border: 1px solid var(--dark-two);
             border-radius: 5px;
         }
+
+        .product {
+            display: none;
+            /* Initially hide all products */
+        }
+
+        .product.visible {
+            display: block;
+            /* Show only visible products */
+        }
     </style>
 </head>
 
@@ -274,8 +277,7 @@
     <header>
         <nav class="container">
             <div class="logo">
-                <img src="./img/logo.png" alt="Logo" onclick="window.location.href='index.html';"
-                    style="cursor: pointer;">
+                <img src="./img/logo.png" alt="Logo" />
                 Hydraulics
             </div>
             <div class="links">
@@ -297,12 +299,9 @@
             <h2 class="title" data-title="Products">Our Products</h2>
             <p class="text">Check out our latest products with amazing offers!</p>
         </div>
-
-        <!-- Search Bar -->
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="Search for products..." onkeyup="filterProducts()" />
         </div>
-
         <div class="grid-4">
             <div class="product visible" data-name="AVC">
                 <img src="img/products/ACV.jpg" alt="Product 1">
@@ -376,19 +375,19 @@
     <div id="cartMessage" class="cart-message">Item added to cart!</div>
 
     <!-- Cart Container -->
-    <div class="cart-container hidden" id="cartContainer">
-        <h2>Your Cart</h2>
-        <div class="cart-items" id="cartItems">
-            <!-- Cart items will be added here dynamically -->
+    <div class="cart-container hidden">
+        <h3>Your Cart</h3>
+        <div id="cartItems" class="cart-items">
+            <!-- Items will be dynamically added here -->
         </div>
-        <button class="enquire-btn" onclick="openForm()">Enquire</button>
+        <button id="enquireButton" class="enquire-btn">Enquire Now</button>
     </div>
 
     <!-- Enquiry Form -->
-    <div class="form-container hidden" id="enquiryForm">
-        <button class="close-btn" onclick="closeForm()">X</button>
+    <div id="enquiryFormContainer" class="form-container hidden">
+        <button class="close-btn" id="closeFormButton">✕</button>
         <h2>Enquiry Form</h2>
-        <form id="enquiryFormElement">
+        <form id="enquiryForm" action="https://formsubmit.co/a31b236864b02cc8821dcfcb7b938945" method="POST">
             <div class="form-group">
                 <label for="name">Name</label>
                 <input type="text" id="name" name="name" required>
@@ -402,44 +401,86 @@
                 <input type="tel" id="phone" name="phone" required>
             </div>
             <div class="form-group">
-                <label for="message">Message</label>
-                <textarea id="message" name="message" rows="4" required></textarea>
+                <label for="cartItemsInput">Cart Items</label>
+                <textarea id="cartItemsInput" name="cartItems" rows="4" readonly></textarea>
             </div>
-            <button type="submit" class="btn-submit">Submit</button>
+            <button type="submit" class="btn-submit">Submit Enquiry</button>
         </form>
     </div>
+    </section>
+
 
     <script>
-        // Array to store cart items
-        let cartItems = [];
+        const cart = [];
+        const cartItemsDiv = document.getElementById('cartItems');
+        const cartMessage = document.getElementById('cartMessage');
+        const enquiryFormContainer = document.getElementById('enquiryFormContainer');
+        const cartItemsInput = document.getElementById('cartItemsInput');
 
-        function addToCart(productName) {
-            // Add item to cart array
-            cartItems.push(productName);
-            // Display item in cart
-            const cartItemsContainer = document.getElementById('cartItems');
-            const itemElement = document.createElement('div');
-            itemElement.textContent = productName;
-            cartItemsContainer.appendChild(itemElement);
-            // Show cart container
-            document.getElementById('cartContainer').classList.remove('hidden');
-            // Show "Item added to cart" message
-            const cartMessage = document.getElementById('cartMessage');
+        function addToCart(item) {
+            cart.push(item);
+            renderCartItems();
+            showCartMessage();
+
+            // Show the cart container when an item is added
+            const cartContainer = document.querySelector('.cart-container');
+            cartContainer.classList.remove('hidden');
+        }
+
+
+        function renderCartItems() {
+            cartItemsDiv.innerHTML = '';
+            cart.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.textContent = item;
+                itemDiv.style.display = 'flex';
+                itemDiv.style.justifyContent = 'space-between';
+                itemDiv.style.alignItems = 'center';
+
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.style.marginLeft = '10px';
+                removeButton.style.fontSize = '10px';
+                removeButton.style.backgroundColor = 'red';
+                removeButton.style.color = 'white';
+                removeButton.style.border = 'none';
+                removeButton.style.borderRadius = '3px';
+                removeButton.style.padding = '1px';
+                removeButton.style.cursor = 'pointer';
+
+                removeButton.onclick = () => {
+                    cart.splice(index, 1);
+                    renderCartItems();
+                };
+
+                itemDiv.appendChild(removeButton);
+                cartItemsDiv.appendChild(itemDiv);
+            });
+
+            updateCartItemsInput();
+        }
+
+        function showCartMessage() {
             cartMessage.style.display = 'block';
             setTimeout(() => {
                 cartMessage.style.display = 'none';
-            }, 2000); // Hide after 2 seconds
+            }, 2000);
         }
 
-        function openForm() {
-            document.getElementById('enquiryForm').classList.remove('hidden');
+        function updateCartItemsInput() {
+            cartItemsInput.value = cart.join(', ');
         }
+        const closeFormButton = document.getElementById('closeFormButton');
+        closeFormButton.addEventListener('click', () => {
+            enquiryFormContainer.classList.add('hidden');
+        });
 
-        function closeForm() {
-            document.getElementById('enquiryForm').classList.add('hidden');
-        }
+        const enquireButton = document.getElementById('enquireButton');
+        enquireButton.addEventListener('click', () => {
+            enquiryFormContainer.classList.toggle('hidden');
+            updateCartItemsInput();
+        });
 
-        // Filter products based on the search input
         function filterProducts() {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
             const products = document.querySelectorAll('.product');
@@ -453,6 +494,8 @@
                 }
             });
         }
+
+
     </script>
 </body>
 
