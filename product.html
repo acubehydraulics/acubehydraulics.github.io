@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="icon" type="image/x-icon" href="/img/acube.png" />
     <style>
+        /* Existing CSS styles... */
+
         .product {
             border: 1px solid var(--dark-two);
             border-radius: 10px;
@@ -16,6 +18,11 @@
             text-align: center;
             background-color: var(--light-three);
             transition: box-shadow 0.3s;
+            display: none; /* Default hidden, shown by JS */
+        }
+
+        .product.visible {
+            display: block;
         }
 
         .product:hover {
@@ -231,6 +238,7 @@
         .hidden {
             display: none;
         }
+
         .close-btn {
             position: absolute;
             top: 10px;
@@ -242,8 +250,22 @@
             padding: 5px 10px;
             cursor: pointer;
         }
+
         .close-btn:hover {
             background-color: darkred;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .search-bar input {
+            padding: 10px;
+            width: 50%;
+            font-size: 1rem;
+            border: 1px solid var(--dark-two);
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -252,7 +274,8 @@
     <header>
         <nav class="container">
             <div class="logo">
-                <img src="./img/logo.png" alt="Logo" />
+                <img src="./img/logo.png" alt="Logo" onclick="window.location.href='index.html';"
+                    style="cursor: pointer;">
                 Hydraulics
             </div>
             <div class="links">
@@ -274,68 +297,74 @@
             <h2 class="title" data-title="Products">Our Products</h2>
             <p class="text">Check out our latest products with amazing offers!</p>
         </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search for products..." onkeyup="filterProducts()" />
+        </div>
+
         <div class="grid-4">
-            <div class="product">
+            <div class="product visible" data-name="AVC">
                 <img src="img/products/ACV.jpg" alt="Product 1">
                 <h3>AVC</h3>
                 <p class="description">A versatile air control valve suitable for various hydraulic systems.</p>
                 <button class="btn" onclick="addToCart('AVC')">Add to Cart</button>
             </div>
-            <div class="product">
+            <div class="product visible" data-name="Air Control Valve">
                 <img src="img/products/Barathbenz ACV.jpg" alt="Product 2">
                 <h3>Air Control Valve</h3>
                 <p class="description">High-quality air control valve for precise control of air flow.</p>
                 <button class="btn" onclick="addToCart('Air Control Valve')">Add to Cart</button>
             </div>
-            <div class="product">
+            <div class="product visible" data-name="DCV">
                 <img src="img/products/DCV.jpg" alt="Product 3">
                 <h3>DCV</h3>
                 <p class="description">Durable directional control valve for reliable operation.</p>
                 <button class="btn" onclick="addToCart('DCV')">Add to Cart</button>
             </div>
-            <div class="product">
+            <div class="product visible" data-name="Filter">
                 <img src="img/products/Filter.jpg" alt="Product 4">
                 <h3>Filter</h3>
                 <p class="description">Efficient filtration for clean hydraulic systems.</p>
                 <button class="btn" onclick="addToCart('Filter')">Add to Cart</button>
             </div>
-            <div class="product">
+            <div class="product visible" data-name="Al Return Line Filter">
                 <img src="img/products/Al Return Line Filter.jpg" alt="Product 5">
                 <h3>Al Return Line Filter</h3>
                 <p class="description">Aluminum return line filter for superior performance.</p>
                 <button class="btn" onclick="addToCart('Al Return Line Filter')">Add to Cart</button>
             </div>
-            <div class="product">
+            <div class="product visible" data-name="Cap">
                 <img src="img/products/Cap.jpg" alt="Product 6">
                 <h3>Cap</h3>
                 <p class="description">Protective cap designed for hydraulic components.</p>
                 <button class="btn" onclick="addToCart('Cap')">Add to Cart</button>
             </div>
-            <div class="product">
+            <div class="product visible" data-name="Hydraulic Pump">
                 <img src="img/products/Hydrolic Pump.jpg" alt="Product 7">
-                <h3>Product 7</h3>
+                <h3>Hydraulic Pump</h3>
                 <p class="description">High-efficiency hydraulic pump for demanding applications.</p>
                 <button class="btn" onclick="addToCart('Product 7')">Add to Cart</button>
             </div>
-            <div class="product">
+            <div class="product visible" data-name="Oil Level Indicator">
                 <img src="img/products/Oil Level Indicator.jpg" alt="Product 8">
                 <h3>Oil Level Indicator</h3>
                 <p class="description">Accurate oil level indicator for easy monitoring.</p>
                 <button class="btn" onclick="addToCart('Oil Level Indicator')">Add to Cart</button>
             </div>
-            <div class="product">
+            <div class="product visible" data-name="Pump Seal Kit">
                 <img src="img/products/Pump seal kit.jpg" alt="Product 9">
                 <h3>Pump Seal Kit</h3>
                 <p class="description">Complete seal kit for hydraulic pumps.</p>
                 <button class="btn" onclick="addToCart('Pump Seal Kit')">Add to Cart</button>
             </div>
-            <div class="product">
+            <div class="product visible" data-name="Seal Kit">
                 <img src="img/products/Seal Kit.jpg" alt="Product 10">
                 <h3>Seal Kit</h3>
                 <p class="description">Seal kit for maintaining hydraulic component integrity.</p>
                 <button class="btn" onclick="addToCart('Seal Kit')">Add to Cart</button>
             </div>
-            <div class="product">
+            <div class="product visible" data-name="Thrust Plate">
                 <img src="img/products/Thrust Plate.jpg" alt="Product 11">
                 <h3>Thrust Plate</h3>
                 <p class="description">Heavy-duty thrust plate for reliable operation.</p>
@@ -347,19 +376,19 @@
     <div id="cartMessage" class="cart-message">Item added to cart!</div>
 
     <!-- Cart Container -->
-    <div class="cart-container">
-        <h3>Your Cart</h3>
-        <div id="cartItems" class="cart-items">
-            <!-- Items will be dynamically added here -->
+    <div class="cart-container hidden" id="cartContainer">
+        <h2>Your Cart</h2>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be added here dynamically -->
         </div>
-        <button id="enquireButton" class="enquire-btn">Enquire Now</button>
+        <button class="enquire-btn" onclick="openForm()">Enquire</button>
     </div>
 
     <!-- Enquiry Form -->
-    <div id="enquiryFormContainer" class="form-container hidden">
-        <button class="close-btn" id="closeFormButton">✕</button>
+    <div class="form-container hidden" id="enquiryForm">
+        <button class="close-btn" onclick="closeForm()">X</button>
         <h2>Enquiry Form</h2>
-        <form id="enquiryForm" action="https://formsubmit.co/a31b236864b02cc8821dcfcb7b938945" method="POST">
+        <form id="enquiryFormElement">
             <div class="form-group">
                 <label for="name">Name</label>
                 <input type="text" id="name" name="name" required>
@@ -373,87 +402,57 @@
                 <input type="tel" id="phone" name="phone" required>
             </div>
             <div class="form-group">
-                <label for="cartItemsInput">Cart Items</label>
-                <textarea id="cartItemsInput" name="cartItems" rows="4" readonly></textarea>
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
             </div>
-            <button type="submit" class="btn-submit">Submit Enquiry</button>
+            <button type="submit" class="btn-submit">Submit</button>
         </form>
     </div>
-    </section>
-
 
     <script>
-        const cart = [];
-        const cartItemsDiv = document.getElementById('cartItems');
-        const cartMessage = document.getElementById('cartMessage');
-        const enquiryFormContainer = document.getElementById('enquiryFormContainer');
-        const cartItemsInput = document.getElementById('cartItemsInput');
+        // Array to store cart items
+        let cartItems = [];
 
-        function addToCart(item) {
-            cart.push(item);
-            renderCartItems();
-            showCartMessage();
-        }
-
-        function renderCartItems() {
-            cartItemsDiv.innerHTML = '';
-            cart.forEach((item, index) => {
-                const itemDiv = document.createElement('div');
-                itemDiv.textContent = item;
-                itemDiv.style.display = 'flex';
-                itemDiv.style.justifyContent = 'space-between';
-                itemDiv.style.alignItems = 'center';
-
-                const removeButton = document.createElement('button');
-                removeButton.textContent = 'Remove';
-                removeButton.style.marginLeft = '10px';
-                removeButton.style.fontSize = '10px';
-                removeButton.style.backgroundColor = 'red';
-                removeButton.style.color = 'white';
-                removeButton.style.border = 'none';
-                removeButton.style.borderRadius = '3px';
-                removeButton.style.padding = '1px';
-                removeButton.style.cursor = 'pointer';
-
-                removeButton.onclick = () => {
-                    cart.splice(index, 1);
-                    renderCartItems();
-                };
-
-                itemDiv.appendChild(removeButton);
-                cartItemsDiv.appendChild(itemDiv);
-            });
-
-            updateCartItemsInput();
-        }
-
-        function showCartMessage() {
+        function addToCart(productName) {
+            // Add item to cart array
+            cartItems.push(productName);
+            // Display item in cart
+            const cartItemsContainer = document.getElementById('cartItems');
+            const itemElement = document.createElement('div');
+            itemElement.textContent = productName;
+            cartItemsContainer.appendChild(itemElement);
+            // Show cart container
+            document.getElementById('cartContainer').classList.remove('hidden');
+            // Show "Item added to cart" message
+            const cartMessage = document.getElementById('cartMessage');
             cartMessage.style.display = 'block';
             setTimeout(() => {
                 cartMessage.style.display = 'none';
-            }, 2000);
+            }, 2000); // Hide after 2 seconds
         }
 
-        function updateCartItemsInput() {
-            cartItemsInput.value = cart.join(', ');
+        function openForm() {
+            document.getElementById('enquiryForm').classList.remove('hidden');
         }
-        const closeFormButton = document.getElementById('closeFormButton');
-        closeFormButton.addEventListener('click', () => {
-            enquiryFormContainer.classList.add('hidden');
-        });
 
-        const enquireButton = document.getElementById('enquireButton');
-        enquireButton.addEventListener('click', () => {
-            enquiryFormContainer.classList.toggle('hidden');
-            updateCartItemsInput();
-        });
+        function closeForm() {
+            document.getElementById('enquiryForm').classList.add('hidden');
+        }
 
-        /*const enquiryForm = document.getElementById('enquiryForm');
-        enquiryForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            // Add form submission logic here
-            alert('Enquiry submitted successfully!');
-        });*/
+        // Filter products based on the search input
+        function filterProducts() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const products = document.querySelectorAll('.product');
+
+            products.forEach(product => {
+                const productName = product.getAttribute('data-name').toLowerCase();
+                if (productName.includes(searchInput)) {
+                    product.classList.add('visible');
+                } else {
+                    product.classList.remove('visible');
+                }
+            });
+        }
     </script>
 </body>
 
