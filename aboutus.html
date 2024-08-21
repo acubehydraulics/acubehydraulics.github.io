@@ -17,28 +17,28 @@
         }
 
         /* Navigation */
-        nav.container {
+        .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 20px;
         }
 
-        .logo {
+        .nav-logo {
             display: flex;
             align-items: center;
         }
 
-        .links ul {
+        .nav-links ul {
             display: flex;
             gap: 70px;
         }
 
-        .links ul li {
+        .nav-links ul li {
             list-style: none;
         }
 
-        .links ul li a {
+        .nav-links ul li a {
             text-decoration: none;
             color: var(--dark-one);
             font-size: 1rem;
@@ -46,7 +46,7 @@
             padding: 5px 0;
         }
 
-        .links ul li a::after {
+        .nav-links ul li a::after {
             content: '';
             position: absolute;
             width: 0;
@@ -58,7 +58,7 @@
             left: 0;
         }
 
-        .links ul li a:hover::after {
+        .nav-links ul li a:hover::after {
             width: 100%;
         }
 
@@ -67,7 +67,7 @@
         }
 
         /* About Section */
-        .about {
+        .about-container {
             background: linear-gradient(rgb(255, 255, 255), rgba(255, 255, 255, 0.471)),
                 url('./img/bak.jpg') no-repeat center center fixed;
             background-size: cover;
@@ -80,15 +80,16 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .about h2 {
+        .about-title {
             font-size: 2.5rem;
             color: var(--dark-one);
             margin-bottom: 20px;
+            text-align: center;
             opacity: 0;
             animation: fadeInUp 1s forwards;
         }
 
-        .about p {
+        .about-text {
             font-size: 1.2rem;
             color: var(--main-color);
             margin-bottom: 10px;
@@ -97,7 +98,7 @@
             animation: fadeInUp 1s forwards 0.3s;
         }
 
-        .branches {
+        .branches-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 20px;
@@ -106,7 +107,7 @@
             animation: fadeInUp 1s forwards 0.6s;
         }
 
-        .branch {
+        .branch-item {
             padding: 20px;
             background-color: var(--light-one);
             border: 1px solid var(--dark-two);
@@ -114,19 +115,19 @@
             text-align: center;
         }
 
-        .branch h3 {
+        .branch-item h3 {
             font-size: 1.8rem;
             color: var(--dark-one);
             margin-bottom: 10px;
         }
 
-        .branch p {
+        .branch-item p {
             font-size: 1.2rem;
             color: var(--main-color);
         }
 
         /* Subsidiary Brands Section */
-        .subsidiary-brands {
+        .subsidiary-brands-container {
             background-color: var(--light-three);
             padding: 40px 20px;
             text-align: center;
@@ -137,22 +138,28 @@
             animation: fadeInUp 1s forwards 1s;
         }
 
-        .subsidiary-brands h2 {
+        .subsidiary-title {
             font-size: 2rem;
             margin-bottom: 20px;
             color: var(--dark-one);
         }
 
-        .subsidiary-brands .logos {
+        .subsidiary-logos {
             display: flex;
             justify-content: center;
-            gap:2px;
+            gap: 2px;
         }
 
-        .subsidiary-brands .logos img {
+        .subsidiary-logo-item img {
             max-width: 160px;
             height: auto;
             border-radius: 1px;
+        }
+
+        .subsidiary-logo-item p {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: var(--dark-one);
         }
 
         /* Animations */
@@ -167,8 +174,10 @@
                 transform: translateY(0);
             }
         }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .links ul {
+            .nav-links ul {
                 flex-direction: column;
                 gap: 10px;
             }
@@ -177,15 +186,15 @@
                 display: block;
             }
 
-            .about {
+            .about-container {
                 padding: 20px;
             }
 
-            .branches {
+            .branches-container {
                 grid-template-columns: 1fr;
             }
 
-            .subsidiary-brands .logos {
+            .subsidiary-logos {
                 flex-direction: column;
             }
         }
@@ -194,56 +203,121 @@
 
 <body>
     <header>
-        <nav class="container">
-            <div class="logo">
-                <img src="./img/logo.png" alt="Logo" />
-                Hydraulics
-            </div>
-            <div class="links">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="product.html">Products</a></li>
-                    <li><a href="aboutus.html">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                </ul>
-            </div>
-            <div class="hamburger-menu">
-                <div class="bar"></div>
+        <nav>
+            <div class="container">
+                <div class="logo">
+                    <img src="./img/logo.png" alt="Logo" /> Hydraulics
+                </div>
+
+                <div class="links">
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="#services">About Us</a>
+                        </li>
+                        <li>
+                            <a href="#contact">Contact Us</a>
+                        </li>
+                        <li>
+                            <a href="product.html" class="active">Products</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="hamburger-menu">
+                    <div class="bar"></div>
+                </div>
             </div>
         </nav>
+
     </header>
 
-    <section class="container about" style="display: flex; flex-direction: column; justify-content: center; height: 100vh;">
-        <h2 style="text-align: center;" class="title" data-title="About US">What Drives Acube</h2>
+    <section class="about-container">
+        <h2 class="about-title" data-title="About US">What Drives Acube</h2>
         <br>
-        <p>With over 10 years of experience in the hydraulic industry, we have been delivering top-notch products and
+        <p class="about-text">With over 10 years of experience in the hydraulic industry, we have been delivering
+            top-notch products and
             services to our customers across the region. Our expertise in hydraulics has made us a trusted name in the
             industry, and we continue to innovate and provide the best solutions for our clients.</p>
-            
-        <p>We have two branches across North Kerala, strategically located to serve our customers better. Our commitment
+
+        <p class="about-text">We have two branches across North Kerala, strategically located to serve our customers
+            better. Our commitment
             to quality and customer satisfaction has helped us grow and establish a strong presence in the market.</p>
 
-        <div class="branches">
-            <div class="branch">
-                <h3>Kannur </h3>
+        <div class="branches-container">
+            <div class="branch-item">
+                <h3>Kannur</h3>
                 <p>Koothuparamba<br>Kannur, Kerala<br>Phone: +91-1234567890</p>
             </div>
-            <div class="branch">
-                <h3>Kozhikode </h3>
+            <div class="branch-item">
+                <h3>Kozhikode</h3>
                 <p>Mukkam<br>Kozhikode, Kerala<br>Phone: +91-0987654321</p>
             </div>
         </div>
     </section>
 
-    <!-- Subsidiary Brands Section -->
-    <section class="subsidiary-brands container">
-        <h2>Our Subsidiary Brands</h2>
-        <div class="logos">
-            <img src="./img/logo.png" alt="Subsidiary Brand 1"> <p><br>Enterprises &ensp; </p>
-            <img src="./img/logo.png" alt="Subsidiary Brand 2"> <p><br>Autosolutions &ensp; </p>
-            <img src="./img/logo.png" alt="Subsidiary Brand 3"><p><br>Earthmovers &ensp; </p>
+    <section class="subsidiary-brands-container">
+        <h2 class="subsidiary-title">Our Subsidiary Brands</h2>
+        <div class="subsidiary-logos">
+            <div class="subsidiary-logo-item">
+                <img src="./img/logo.png" alt="Subsidiary Brand 1">
+                <p>Enterprises</p>
+            </div>
+            <div class="subsidiary-logo-item">
+                <img src="./img/logo.png" alt="Subsidiary Brand 2">
+                <p>Autosolutions</p>
+            </div>
+            <div class="subsidiary-logo-item">
+                <img src="./img/logo.png" alt="Subsidiary Brand 3">
+                <p>Earthmovers</p>
+            </div>
         </div>
     </section>
+    <footer class="footer" hidden>
+        <div class="container">
+            <div class="grid-4"></div>
+
+
+            <div class="grid-4-col footer-newstletter" hidden>
+
+                <form action="" method="POST">
+                    <div class="footer-input-wrap">
+                        <input type="hidden" name="_template" value="table" />
+                        <input type="hidden" name="_subject" value="Subscribe" />
+                        <input required name="email" type="email" class="footer-input"
+                            placeholder="Check Out Our Products" />
+                        <button type="submit" class="input-arrow" onclick="product.html">
+                            <i class="fas fa-angle-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="bottom-footer">
+            <div class="copyright">
+                <p class="text">Copyright&copy;2024 All rights reserved</p>
+            </div>
+
+            <div class="followme-wrap">
+
+
+                <div class="back-btn-wrap">
+                    <a href="#" class="back-btn">
+                        <i class="fas fa-chevron-up"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="./js/isotope.pkgd.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="./js/app.js"></script>
 </body>
 
 </html>
