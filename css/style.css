@@ -215,7 +215,8 @@ img {
 }
 
 .btn:hover {
-  background-color: #6b44e0;
+  /*background-color: #6b44e0;*/
+  background-color: #842364;
 }
 
 .btn.small {
