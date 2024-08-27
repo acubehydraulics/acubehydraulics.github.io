@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enquire Now</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <style>
+        /* Add some animations for the form */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        body {
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: linear-gradient(45deg, #801f61 0%, #2f5485 100%);
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-out;
+        }
+
+        .form-container h2 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+            color: #333;
+            text-align: center;
+        }
+
+        .form-container .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-container label {
+            display: block;
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="email"],
+        .form-container input[type="tel"],
+        .form-container textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .form-container input[type="text"]:focus,
+        .form-container input[type="email"]:focus,
+        .form-container input[type="tel"]:focus,
+        .form-container textarea:focus {
+            border-color: #66b3ff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .form-container .btn-submit {
+            padding: 0.7rem 1.8rem;
+            font-size: 1.2rem;
+            background-color: #2f5485;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container .btn-submit:hover {
+            background-color: #218838;
+        }
+
+        .form-container .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        .thank-you-message {
+            display: none;
+            text-align: center;
+        }
+
+        .thank-you-message h2 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .thank-you-message .btn-return-home {
+            padding: 0.7rem 1.8rem;
+            font-size: 1.2rem;
+            background-color: #289b0e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .thank-you-message .btn-return-home:hover {
+            background-color: #218838;
+        }
+
+        .thank-you-message .btn-return-home:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <h2>Enquire Now</h2>
+        <form id="contact-form" action="#">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="cartItemsInput">Cart Items</label>
+                <textarea id="cartItemsInput" name="cartItems" rows="4" readonly></textarea>
+            </div>
+            <button type="submit" class="btn-submit">Submit Enquiry</button>
+        </form>
+    </div>
+
+    <div class="thank-you-message" id="thank-you-message">
+        <h2>Thank you for your enquiry!</h2>
+        <button class="btn-return-home" onclick="window.location.href = '/'">Return Home</button>
+    </div>
+
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+        emailjs.init('IJGKLiz6UZI82LdBp');
+        document.getElementById('contact-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            emailjs.sendForm('service_2ap11ly', 'template_09sli7j', this)
+                .then(function (response) {
+                    document.querySelector('.form-container').style.display = 'none';
+                    document.getElementById('thank-you-message').style.display = 'block';
+                }, function (error) {
+                    alert('Failed to send email: ' + JSON.stringify(error));
+                });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartItems = localStorage.getItem('cartItems');
+            if (cartItems) {
+                document.getElementById('cartItemsInput').value = cartItems;
+            }
+        });
+    </script>
+</body>
+
+</html>
