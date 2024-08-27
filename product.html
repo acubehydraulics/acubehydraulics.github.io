@@ -380,106 +380,73 @@
         <div id="cartItems" class="cart-items">
             <!-- Items will be dynamically added here -->
         </div>
-        <button id="enquireButton" class="enquire-btn">Enquire Now</button>
-    </div>
+        <!-- Updated Enquire Now Button -->
+        <button id="enquireButton" class="enquire-btn" onclick="window.location.href='productemail.html'">Enquire Now</button>
 
-    <!-- Enquiry Form -->
-    <div id="enquiryFormContainer" class="form-container hidden">
-        <button class="close-btn" id="closeFormButton">✕</button>
-        <h2>Enquiry Form</h2>
-        <form id="enquiryForm" action="https://formsubmit.co/a31b236864b02cc8821dcfcb7b938945" method="POST">
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="phone">Phone</label>
-                <input type="tel" id="phone" name="phone" required>
-            </div>
-            <div class="form-group">
-                <label for="cartItemsInput">Cart Items</label>
-                <textarea id="cartItemsInput" name="cartItems" rows="4" readonly></textarea>
-            </div>
-            <button type="submit" class="btn-submit">Submit Enquiry</button>
-        </form>
     </div>
+    
     </section>
 
 
     <script>
         const cart = [];
-        const cartItemsDiv = document.getElementById('cartItems');
-        const cartMessage = document.getElementById('cartMessage');
-        const enquiryFormContainer = document.getElementById('enquiryFormContainer');
-        const cartItemsInput = document.getElementById('cartItemsInput');
+    const cartItemsDiv = document.getElementById('cartItems');
+    const cartMessage = document.getElementById('cartMessage');
+    
+    function addToCart(item) {
+        cart.push(item);
+        renderCartItems();
+        showCartMessage();
 
-        function addToCart(item) {
-            cart.push(item);
-            renderCartItems();
-            showCartMessage();
+        // Store cart items in localStorage
+        localStorage.setItem('cartItems', cart.join(', '));
 
-            // Show the cart container when an item is added
-            const cartContainer = document.querySelector('.cart-container');
-            cartContainer.classList.remove('hidden');
-        }
+        // Show the cart container when an item is added
+        const cartContainer = document.querySelector('.cart-container');
+        cartContainer.classList.remove('hidden');
+    }
 
+    function renderCartItems() {
+        cartItemsDiv.innerHTML = '';
+        cart.forEach((item, index) => {
+            const itemDiv = document.createElement('div');
+            itemDiv.textContent = item;
+            itemDiv.style.display = 'flex';
+            itemDiv.style.justifyContent = 'space-between';
+            itemDiv.style.alignItems = 'center';
 
-        function renderCartItems() {
-            cartItemsDiv.innerHTML = '';
-            cart.forEach((item, index) => {
-                const itemDiv = document.createElement('div');
-                itemDiv.textContent = item;
-                itemDiv.style.display = 'flex';
-                itemDiv.style.justifyContent = 'space-between';
-                itemDiv.style.alignItems = 'center';
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remove';
+            removeButton.style.marginLeft = '10px';
+            removeButton.style.fontSize = '10px';
+            removeButton.style.backgroundColor = 'red';
+            removeButton.style.color = 'white';
+            removeButton.style.border = 'none';
+            removeButton.style.borderRadius = '3px';
+            removeButton.style.padding = '1px';
+            removeButton.style.cursor = 'pointer';
 
-                const removeButton = document.createElement('button');
-                removeButton.textContent = 'Remove';
-                removeButton.style.marginLeft = '10px';
-                removeButton.style.fontSize = '10px';
-                removeButton.style.backgroundColor = 'red';
-                removeButton.style.color = 'white';
-                removeButton.style.border = 'none';
-                removeButton.style.borderRadius = '3px';
-                removeButton.style.padding = '1px';
-                removeButton.style.cursor = 'pointer';
+            removeButton.onclick = () => {
+                cart.splice(index, 1);
+                renderCartItems();
+                // Update localStorage
+                localStorage.setItem('cartItems', cart.join(', '));
+            };
 
-                removeButton.onclick = () => {
-                    cart.splice(index, 1);
-                    renderCartItems();
-                };
+            itemDiv.appendChild(removeButton);
+            cartItemsDiv.appendChild(itemDiv);
+        });
+    }
 
-                itemDiv.appendChild(removeButton);
-                cartItemsDiv.appendChild(itemDiv);
-            });
-
-            updateCartItemsInput();
-        }
-
-        function showCartMessage() {
-            cartMessage.style.display = 'block';
-            setTimeout(() => {
-                cartMessage.style.display = 'none';
-            }, 2000);
-        }
-
+    function showCartMessage() {
+        cartMessage.style.display = 'block';
+        setTimeout(() => {
+            cartMessage.style.display = 'none';
+        }, 2000);
+    }
         function updateCartItemsInput() {
             cartItemsInput.value = cart.join(', ');
         }
-        const closeFormButton = document.getElementById('closeFormButton');
-        closeFormButton.addEventListener('click', () => {
-            enquiryFormContainer.classList.add('hidden');
-        });
-
-        const enquireButton = document.getElementById('enquireButton');
-        enquireButton.addEventListener('click', () => {
-            enquiryFormContainer.classList.toggle('hidden');
-            updateCartItemsInput();
-        });
 
         function filterProducts() {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
