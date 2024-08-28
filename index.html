@@ -9,6 +9,25 @@
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
   <link rel="stylesheet" href="./css/style.css" />
+  <style>
+    #ani {
+      animation: zoom-in-zoom-out 2s ease infinite;
+    }
+
+    @keyframes zoom-in-zoom-out {
+      0% {
+        transform: scale(0.90, 0.90);
+      }
+
+      50% {
+        transform: scale(1.10, 1.10);
+      }
+
+      100% {
+        transform: scale(0.90, 0.90);
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -47,7 +66,7 @@
                 <a href="#contact">Contact Us</a>
               </li>
               <li>
-                <a href="product.html" class="active">ORDER NOW</a>
+                <a href="aboutus.html" class="active">ABOUT US</a>
               </li>
             </ul>
           </div>
@@ -70,7 +89,7 @@
 
               </div>
             </div>
-            <a href="aboutus.html" target="_blank" class="btn">About Us</a>
+            <a href="product.html" target="_blank" class="btn" id="ani">Order Now</a>
           </div>
 
           <div class="column-2 image">
