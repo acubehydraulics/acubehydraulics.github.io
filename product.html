@@ -118,6 +118,20 @@
             }
         }
 
+        /* Slide-in animation for the cart container */
+        @keyframes slideIn {
+            from {
+                right: -350px;
+                opacity: 0;
+            }
+
+            to {
+                right: 10px;
+                opacity: 1;
+            }
+        }
+
+        /* Cart message style */
         .cart-message {
             position: fixed;
             top: 10px;
@@ -131,26 +145,43 @@
             z-index: 1000;
         }
 
+        /* Cart container style */
         .cart-container {
             position: fixed;
             top: 20%;
-            right: 10px;
+            right: -350px;
+            /* Start hidden to the right */
             width: 300px;
             border: 1px solid var(--dark-two);
             border-radius: 10px;
             padding: 20px;
+            background-color: rgb(191, 161, 161);
+            /* Gradient background */
             background-image: url(img/CART.png);
             background-repeat: no-repeat;
-            background-color: #d3e0ee;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             z-index: 999;
+            animation: slideIn 0.5s forwards;
+            /* Add slide-in animation */
+            transition: all 0.3s ease-in-out;
+            /* Smooth transition */
         }
 
+        /* Glow effect on hover */
+        .cart-container:hover {
+            box-shadow: 0 4px 15px rgba(0, 150, 136, 0.5);
+        }
+
+        /* Cart items style */
         .cart-items {
             margin-bottom: 20px;
         }
 
+        /* Cart items hover effect *
+
+        /* Enquire button style */
         .enquire-btn {
+            position: relative;
             padding: 0.7rem 1.8rem;
             font-size: 1rem;
             background-color: var(--main-color);
@@ -158,10 +189,18 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            overflow: hidden;
+
         }
 
+        /* Enquire button hover effect */
         .enquire-btn:hover {
             background-color: #287c11;
+        }
+
+        /* Hidden class to hide the cart container */
+        .hidden {
+            display: none;
         }
 
         .form-container {
@@ -270,6 +309,29 @@
             display: block;
             /* Show only visible products */
         }
+
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            padding: 10px 0;
+            font-weight: bold;
+            color: #801f61;
+        }
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 10s linear infinite;
+            font-size: 16px;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        @media (max-width: 600px) {
+            .marquee-content {
+                font-size: 14px; /* Adjust font size for mobile */
+            }
+        }
     </style>
 </head>
 
@@ -280,13 +342,18 @@
                 <img src="./img/logo.png" alt="Logo" />
                 Hydraulics
             </div>
-            <a href="index.html" class="active"><img src="img/home.png" alt="HOME" style="width: 35px; height: 35px;"></a>
+            <a href="index.html" class="active"><img src="img/home.png" alt="HOME"
+                    style="width: 35px; height: 35px;"></a>
         </nav>
     </header>
-
+    <div class="marquee-container">
+        <div class="marquee-content">
+            If you need any products not listed, tick the checklist at checkout, and we will contact you!
+        </div>
+    </div>
     <section class="container section">
         <div class="section-header">
-            <h2 class="title" data-title="Products">Our Products</h2>
+            <h2 class="title" data-title="Products" style="padding-top: 20px;">Our Products</h2>
             <p class="text">Check out our latest products with amazing offers!</p>
         </div>
         <div class="search-bar">
@@ -380,7 +447,8 @@
             <div class="product visible" data-name="Body Fix Kit">
                 <img src="img/products/Body.jpg" alt="Product 15">
                 <h3>Body Fix Kit</h3>
-                <p class="description"> Set of hydraulic components used to repair or reinforce the body of vehicles or equipment.</p>
+                <p class="description"> Set of hydraulic components used to repair or reinforce the body of vehicles or
+                    equipment.</p>
                 <button class="btn" onclick="addToCart('Body Fix Kit')">Add to Cart</button>
             </div>
             <div class="product visible" data-name="Pressure Adapter Catridge">
@@ -396,77 +464,84 @@
 
     <!-- Cart Container -->
     <div class="cart-container hidden">
+        <img src="img/mini.png" id="min" onclick="toggleCart()"
+            style="position: absolute; top: 10px; right: 10px; width: 20px; height: 20px; cursor: pointer;">
         <h3>Your Cart</h3>
         <div id="cartItems" class="cart-items">
             <!-- Items will be dynamically added here -->
         </div>
-        <!-- Updated Enquire Now Button -->
-        <button id="enquireButton" class="enquire-btn" onclick="window.location.href='productemail.html'">Enquire Now</button>
-
+        <button id="enquireButton" class="enquire-btn" onclick="window.location.href='productemail.html'">Enquire
+            Now</button>
     </div>
-    
+
+
     </section>
 
 
     <script>
         const cart = [];
-    const cartItemsDiv = document.getElementById('cartItems');
-    const cartMessage = document.getElementById('cartMessage');
-    
-    function addToCart(item) {
-        cart.push(item);
-        renderCartItems();
-        showCartMessage();
+        const cartItemsDiv = document.getElementById('cartItems');
+        const cartMessage = document.getElementById('cartMessage');
 
-        // Store cart items in localStorage
-        localStorage.setItem('cartItems', cart.join(', '));
+        function addToCart(item) {
+            cart.push(item);
+            renderCartItems();
+            showCartMessage();
 
-        // Show the cart container when an item is added
-        const cartContainer = document.querySelector('.cart-container');
-        cartContainer.classList.remove('hidden');
-    }
+            // Store cart items in localStorage
+            localStorage.setItem('cartItems', cart.join(', '));
 
-    function renderCartItems() {
-        cartItemsDiv.innerHTML = '';
-        cart.forEach((item, index) => {
-            const itemDiv = document.createElement('div');
-            itemDiv.textContent = item;
-            itemDiv.style.display = 'flex';
-            itemDiv.style.justifyContent = 'space-between';
-            itemDiv.style.alignItems = 'center';
+            // Show the cart container when an item is added
+            const cartContainer = document.querySelector('.cart-container');
+            cartContainer.classList.remove('hidden');
+        }
 
-            const removeButton = document.createElement('button');
-            removeButton.textContent = 'Remove';
-            removeButton.style.marginLeft = '10px';
-            removeButton.style.fontSize = '10px';
-            removeButton.style.backgroundColor = 'red';
-            removeButton.style.color = 'white';
-            removeButton.style.border = 'none';
-            removeButton.style.borderRadius = '3px';
-            removeButton.style.padding = '1px';
-            removeButton.style.cursor = 'pointer';
+        function renderCartItems() {
+            cartItemsDiv.innerHTML = '';
+            cart.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.textContent = item;
+                itemDiv.style.display = 'flex';
+                itemDiv.style.justifyContent = 'space-between';
+                itemDiv.style.alignItems = 'center';
 
-            removeButton.onclick = () => {
-                cart.splice(index, 1);
-                renderCartItems();
-                // Update localStorage
-                localStorage.setItem('cartItems', cart.join(', '));
-            };
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.style.marginLeft = '10px';
+                removeButton.style.fontSize = '10px';
+                removeButton.style.backgroundColor = 'red';
+                removeButton.style.color = 'white';
+                removeButton.style.border = 'none';
+                removeButton.style.borderRadius = '3px';
+                removeButton.style.padding = '1px';
+                removeButton.style.cursor = 'pointer';
 
-            itemDiv.appendChild(removeButton);
-            cartItemsDiv.appendChild(itemDiv);
-        });
-    }
+                removeButton.onclick = () => {
+                    cart.splice(index, 1);
+                    renderCartItems();
+                    // Update localStorage
+                    localStorage.setItem('cartItems', cart.join(', '));
+                };
 
-    function showCartMessage() {
-        cartMessage.style.display = 'block';
-        setTimeout(() => {
-            cartMessage.style.display = 'none';
-        }, 2000);
-    }
+                itemDiv.appendChild(removeButton);
+                cartItemsDiv.appendChild(itemDiv);
+            });
+        }
+
+        function showCartMessage() {
+            cartMessage.style.display = 'block';
+            setTimeout(() => {
+                cartMessage.style.display = 'none';
+            }, 2000);
+        }
         function updateCartItemsInput() {
             cartItemsInput.value = cart.join(', ');
         }
+        function toggleCart() {
+            const cart = document.querySelector('.cart-container');
+            cart.classList.toggle('hidden');
+        }
+
 
         function filterProducts() {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
