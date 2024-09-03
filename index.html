@@ -27,6 +27,35 @@
         transform: scale(1.00, 1.00);
       }
     }
+
+    .map-container {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      /* Limits the max width on larger screens */
+      padding-bottom: 56.25%;
+      /* 16:9 aspect ratio */
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: auto;
+      /* Centers the map */
+      transition: transform 0.3s ease;
+    }
+
+    .map-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .map-container:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
   </style>
 </head>
 
@@ -323,7 +352,7 @@
         <div class="contact-box">
           <!-- Branch 1 -->
           <div class="branch branch-left">
-            <h3 class="title">Kannur </h3>
+            <h3 class="title"style="padding-top: 30px;">Kannur </h3>
             <p class="text">
               Reach out to our first branch for assistance or inquiries.
             </p>
@@ -333,9 +362,10 @@
                   <i class="fas fa-map-marker-alt"></i>
                 </div>
                 <p class="info-text">
-                  <a href="https://maps.app.goo.gl/ogCxZGa2j49kYdDu8" target="_blank">Valiyavelicham, Near KSDIC, Kuthuparambha</a>
+                  <a href="https://maps.app.goo.gl/ogCxZGa2j49kYdDu8" target="_blank">Valiyavelicham, Near KSDIC,
+                    Kuthuparambha</a>
                 </p>
-                
+
               </div>
 
               <div class="information">
@@ -356,12 +386,17 @@
                   <a href="tel:7907641351">7907641351</a>
                 </p>
               </div>
+              <div class="map-container">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3905.119278656314!2d75.59925567465855!3d11.826918988393011!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba42fba0fbd8735%3A0xb4164f50de7e22a5!2sA%20CUBE%20ENTERPRISES!5e0!3m2!1sen!2sin!4v1725343199096!5m2!1sen!2sin"
+                  loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              </div>
             </div>
           </div>
 
           <!-- Branch 2 -->
           <div class="branch branch-right">
-            <h3 class="title">Kozhikode</h3>
+            <h3 class="title" style="padding-top: 30px;">Kozhikode</h3>
             <p class="text">
               Reach out to our second branch for assistance or inquiries.
             </p>
@@ -373,7 +408,7 @@
                 <p class="info-text">
                   <a href="https://maps.app.goo.gl/eEmzcJgGChP1h8oG6" target="_blank">Nellikkaparamba, Mukkam</a>
                 </p>
-                
+
               </div>
 
               <div class="information">
@@ -394,6 +429,12 @@
                   <a href="tel:8921318401">8921318401</a>,
                   <a href="tel:8547081351">8547081351</a>
                 </p>
+              </div>
+              <div class="map-container">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6543.084508871063!2d76.00901460322702!3d11.284673381344424!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba64100307a4677%3A0x8b232c5cbd564241!2sA%20CUBE%20ENTERPRISES!5e0!3m2!1sen!2sin!4v1725344788623!5m2!1sen!2sin"
+                  loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                
               </div>
             </div>
           </div>
