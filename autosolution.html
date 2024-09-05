@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details</title>
+    <link rel="icon" type="image/x-icon" href="/img/acube.png" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <style>
+        body {
+            background: linear-gradient(135deg, rgba(36, 68, 115, 0.616), rgba(195, 111, 163, 0.616));
+            color: var(--dark-one);
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links ul {
+            display: flex;
+            gap: 70px;
+        }
+
+        .nav-links ul li {
+            list-style: none;
+        }
+
+        .nav-links ul li a {
+            text-decoration: none;
+            color: var(--dark-one);
+            font-size: 1rem;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            background: var(--main-color);
+            transition: width 0.3s;
+            bottom: 0;
+            left: 0;
+        }
+
+        .nav-links ul li a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger-menu {
+            display: none;
+        }
+
+        .team-container {
+            padding: 40px 20px;
+            background-color: var(--light-three);
+            border-radius: 10px;
+            margin: 20px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-title {
+            font-size: 2.5rem;
+            color: var(--dark-one);
+            margin-bottom: 20px;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 1s forwards;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+            opacity: 0;
+            animation: fadeInUp 1s forwards 0.6s;
+        }
+
+        .team-member {
+            padding: 20px;
+            background-color: var(--light-one);
+            border: 1px solid var(--dark-two);
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-member img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+
+        .team-member h3 {
+            font-size: 1.8rem;
+            color: var(--dark-one);
+            margin-bottom: 10px;
+        }
+
+        .team-member p {
+            font-size: 1.2rem;
+            color: var(--main-color);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="container">
+                <div class="logo">
+                    <img src="./img/logo.png" alt="Logo" /> Autosolutions
+                </div>
+
+                <div class="links">
+                    <ul>
+                            <a href="autosolution.html" class="active">Our Team</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="hamburger-menu">
+                    <div class="bar"></div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="team-container">
+        <h2 class="team-title" data-title="Our Team">Employee</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <a href="https://forms.zohopublic.in/acubeautosolution1/form/EmployeeSHARID/formperma/aSHilpMR5WdeDtUxn3lDVM36V2_k2W476rYK12_D-TI">
+                <img src="./img/acube.png" alt="Sharid">
+                <h3>Sharid</h3>
+                <p>Technician</p></a>
+            </div>
+            <div class="team-member">
+                <a href="https://forms.zohopublic.in/acubeautosolution1/form/EmployeeSHANAVAS/formperma/YSIJ5uvsAQLUfz_PVDwjFx8C1fBQVWFD4ek-A5WxMek">
+                <img src="./img/acube.png" alt="Shanavas">
+                <h3>Shanavas</h3>
+                <p>Technician</p></a>
+            </div>
+            <div class="team-member">
+                <a href="https://forms.zohopublic.in/acubeautosolution1/form/EmployeeSONARE/formperma/2eFwfAmmt3l_86F4-9Rfd53935u2275_hyCtOYdcr30">
+                <img src="./img/acube.png" alt="Sonar">
+                <h3>Sonar</h3>
+                <p>Technician</p></a>
+            </div>
+        </div>
+    </section>
+
+   
+</body>
+
+</html>
